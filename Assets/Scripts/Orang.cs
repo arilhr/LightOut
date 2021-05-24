@@ -12,26 +12,35 @@ public class Orang : MonoBehaviour
     }
 
     public Routine[] routines;
+    private Routine currentRoutine;
     public float speed;
+    private float currentUseTime = 0;
 
     private Rigidbody2D rb;
-    private int indexRoutine = 0;
     private bool isMoving = false;
+    private bool isUsingFurniture = false;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        Invoke("RandomMove", 2f);
+        DoRoutine();
     }
 
     private void Update()
     {
-        if (isMoving) MoveToFurniture(routines[indexRoutine].furniture);
+        UsingFurniture();
     }
 
-    private void MoveToFurniture(Furniture _targetFurniture)
+    private void FixedUpdate()
     {
-        Vector3 furniturePos = _targetFurniture.GetFurniturePosition();
+        MoveToFurniture();
+    }
+
+    private void MoveToFurniture()
+    {
+        if (!isMoving) return;
+
+        Vector3 furniturePos = currentRoutine.furniture.GetFurniturePosition();
         Vector2 targetPosition = new Vector2(furniturePos.x, transform.position.y);
 
         if (transform.position.x != furniturePos.x)
@@ -44,21 +53,60 @@ public class Orang : MonoBehaviour
         }
         else
         {
+            UseFurniture();
             isMoving = false;
-            UseFurniture(_targetFurniture);
         }
     }
 
-    private void UseFurniture(Furniture _furnitureToUse)
+    private void UseFurniture()
     {
-        _furnitureToUse.Use();
+        currentRoutine.furniture.Use();
+        isUsingFurniture = true;
 
         // animation
     }
 
-    private void RandomMove()
+    private void UsingFurniture()
     {
-        indexRoutine = Random.Range(0, routines.Length);
-        isMoving = true;
+        if (!isUsingFurniture) return;
+
+        if (currentUseTime >= currentRoutine.time)
+        {
+            isUsingFurniture = false;
+            currentUseTime = 0;
+            currentRoutine.furniture.Unuse();
+            DoRoutine();
+        }
+        else
+        {
+            currentUseTime += Time.deltaTime;
+        }
+    }
+
+    private void DoRoutine()
+    {
+        // controlled
+        foreach (Routine r in routines)
+        {
+            if (!r.furniture.IsFull)
+            {
+                currentRoutine = r;
+                break;
+            }
+        }
+
+        // random
+        while (true)
+        {
+            currentRoutine = routines[Random.Range(0, routines.Length)];
+
+            if (!currentRoutine.furniture.IsFull)
+            {
+                currentRoutine.furniture.AddUser();
+                isMoving = true;
+                break;
+            }
+
+        }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -15,11 +16,13 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject panelWin;
     [SerializeField] private GameObject panelLose;
 
-    //private Orang orang;
+    private Orang[] members;
+    private Scene currentScene;
 
     void Start()
     {
-        //orang = FindObjectOfType<Orang>();
+        members = FindObjectsOfType<Orang>();
+        currentScene = SceneManager.GetActiveScene();
     }
 
     void Update()
@@ -30,7 +33,7 @@ public class GameManager : MonoBehaviour
 
     private void CheckTimer()
     {
-        //cek apakah npc di serang atau tidak
+        //cek apakah ada npc yang di serang atau tidak
         //if (!orang.isAttacked)
         //{
         if (seconds <= 0)
@@ -52,7 +55,6 @@ public class GameManager : MonoBehaviour
         //}
         //else
         //{
-            //gameplay berhenti
             //panel lose
             //ShowPanelLose();
         //}
@@ -89,5 +91,15 @@ public class GameManager : MonoBehaviour
     private void ShowPanelLose()
     {
         panelLose.SetActive(true);
+    }
+
+    public void RestartLevel()
+    {
+        SceneManager.LoadScene(currentScene.name);
+    }
+
+    public void Home()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
 }

@@ -1,17 +1,23 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Furniture : MonoBehaviour
 {
+    [Header("User")]
     public int userSlot;
     private int currentUser = 0;
     private bool isOn = false;
     private bool isUsed = false;
     private bool isFull = false;
+    private GameObject lastUser;
 
+    [Header("Spawn Monster")]
+    public GameObject monster;
     public float timeToSpawnMonster;
     private float currentTimeSpawn = 0;
+    public Image percentageToSpawn;
 
     private Animator furnitureAnim;
 
@@ -37,7 +43,7 @@ public class Furniture : MonoBehaviour
 
     private void Update()
     {
-        CheckFurnitureUsed();
+        CheckToSpawnMonster();
     }
 
     public void AddUser()
@@ -46,9 +52,11 @@ public class Furniture : MonoBehaviour
         CheckFull();
     }
 
-    public void Use()
+    public void Use(GameObject _lastUser)
     {
         isOn = true;
+        isUsed = true;
+        lastUser = _lastUser;
 
         furnitureAnim.SetBool("On", true);
     }
@@ -56,6 +64,9 @@ public class Furniture : MonoBehaviour
     public void Unuse()
     {
         currentUser -= 1;
+        if (currentUser == 0)
+            isUsed = false;
+
         CheckFull();
     }
 
@@ -79,9 +90,32 @@ public class Furniture : MonoBehaviour
         return transform.position;
     }
 
-    private void CheckFurnitureUsed()
+    private void CheckToSpawnMonster()
     {
-        if (currentUser == 0) isUsed = false;
+        if (!isUsed && isOn)
+        {
+            currentTimeSpawn += Time.deltaTime;
+            percentageToSpawn.fillAmount = currentTimeSpawn / timeToSpawnMonster;
+            if (currentTimeSpawn >= timeToSpawnMonster)
+            {
+                SpawnMonster();
+                currentTimeSpawn = 0;
+            }
+        }
+        else
+        {
+            currentTimeSpawn = 0;
+            percentageToSpawn.fillAmount = currentTimeSpawn / timeToSpawnMonster;
+        }
+    }
+
+    private void SpawnMonster()
+    {
+        var m = Instantiate(monster, transform.position, Quaternion.identity);
+        Monster mScript = m.GetComponent<Monster>();
+        mScript.SetTarget(lastUser.transform);
+
+        Debug.Log("Monster is spawned.");
     }
 
     private void OnMouseDown()

@@ -11,10 +11,17 @@ public class Orang : MonoBehaviour
         public float time;
     }
 
+    [Header("Stats")]
+    public float speed;
+
+    [Header("Routine")]
     public Routine[] routines;
     private Routine currentRoutine;
-    public float speed;
     private float currentUseTime = 0;
+
+    [Header("Penalties")]
+    public float timePenalty;
+    private float currentTimePenalty = 0f;
 
     private Rigidbody2D rb;
     private bool isMoving = false;
@@ -60,7 +67,7 @@ public class Orang : MonoBehaviour
 
     private void UseFurniture()
     {
-        currentRoutine.furniture.Use();
+        currentRoutine.furniture.Use(gameObject);
         isUsingFurniture = true;
 
         // animation
@@ -81,6 +88,12 @@ public class Orang : MonoBehaviour
         {
             currentUseTime += Time.deltaTime;
         }
+    }
+
+    private void Penalties()
+    {
+        // player tidak bisa melakukan apa-apa selama waktu penalty
+
     }
 
     private void DoRoutine()

@@ -9,6 +9,11 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private GameObject tutorialPanel;
     [SerializeField] private GameObject creditPanel;
 
+    private void Update()
+    {
+        Quit();
+    }
+
     public void Play(int index)
     {
         SceneManager.LoadScene(index);
@@ -44,6 +49,14 @@ public class MainMenu : MonoBehaviour
         if(creditPanel.activeSelf == true)
         {
             creditPanel.SetActive(false);
+        }
+    }
+
+    private void Quit()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
         }
     }
 }

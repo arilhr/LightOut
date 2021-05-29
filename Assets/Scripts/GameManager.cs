@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.Events;
 
 public class GameManager : MonoBehaviour
 {
@@ -16,6 +17,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject panelWin;
     [SerializeField] private GameObject panelLose;
 
+    public static UnityEvent GameLose;
+    public static UnityEvent GameWin;
+
+    
+
     private Orang[] members;
     private Scene currentScene;
 
@@ -23,6 +29,10 @@ public class GameManager : MonoBehaviour
     {
         members = FindObjectsOfType<Orang>();
         currentScene = SceneManager.GetActiveScene();
+        GameWin = new UnityEvent();
+        GameLose = new UnityEvent();
+        GameWin.AddListener(ShowPanelWin);
+        GameLose.AddListener(ShowPanelLose);
     }
 
     void Update()

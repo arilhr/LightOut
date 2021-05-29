@@ -90,6 +90,11 @@ public class Orang : MonoBehaviour
         }
     }
 
+    public void Attacked()
+    {
+        isMoving = false;
+    }
+
     private void Penalties()
     {
         // player tidak bisa melakukan apa-apa selama waktu penalty

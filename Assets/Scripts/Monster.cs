@@ -20,7 +20,7 @@ public class Monster : MonoBehaviour
     }
 
     private void Update()
-    {
+    { 
         if (hp <= 0)
         {
             Die();

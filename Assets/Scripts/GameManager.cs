@@ -20,14 +20,15 @@ public class GameManager : MonoBehaviour
     public static UnityEvent GameLose;
     public static UnityEvent GameWin;
 
-    
-
-    private Orang[] members;
     private Scene currentScene;
+
+    //untuk cek kalo game dah selesai, update semua object berhenti. 
+    //taruh di script update orang, furniture, monster juga
+    public static bool isGameOver;
 
     void Start()
     {
-        members = FindObjectsOfType<Orang>();
+        isGameOver = false;
         currentScene = SceneManager.GetActiveScene();
         GameWin = new UnityEvent();
         GameLose = new UnityEvent();
@@ -37,19 +38,20 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        CheckTimer();
-        ShowTimer();
+        if (!isGameOver)
+        {
+            CheckTimer();
+            ShowTimer();
+        }
     }
 
     private void CheckTimer()
     {
-        //cek apakah ada npc yang di serang atau tidak
-        //if (!orang.isAttacked)
-        //{
         if (seconds <= 0)
         {
             if (minutes <= 0)
             {
+                PlayerPrefs.SetInt("levelReached", 2);
                 ShowPanelWin();
             }
             else
@@ -62,12 +64,6 @@ public class GameManager : MonoBehaviour
         {
             seconds -= Time.deltaTime;
         }
-        //}
-        //else
-        //{
-            //panel lose
-            //ShowPanelLose();
-        //}
     }
 
     private void ShowTimer()
@@ -95,17 +91,24 @@ public class GameManager : MonoBehaviour
 
     private void ShowPanelWin()
     {
+        isGameOver = true;
         panelWin.SetActive(true);
     }
 
     private void ShowPanelLose()
     {
+        isGameOver = true;
         panelLose.SetActive(true);
     }
 
     public void RestartLevel()
     {
         SceneManager.LoadScene(currentScene.name);
+    }
+
+    public void NextLevel(int nextLevel)
+    {
+        SceneManager.LoadScene("Level" + nextLevel);
     }
 
     public void Home()

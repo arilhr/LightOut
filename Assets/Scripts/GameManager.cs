@@ -111,8 +111,8 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("Level" + nextLevel);
     }
 
-    public void Home()
+    public void GoToLevelSelectorScene()
     {
-        SceneManager.LoadScene("MainMenu");
+        SceneManager.LoadScene("LevelSelector");
     }
 }

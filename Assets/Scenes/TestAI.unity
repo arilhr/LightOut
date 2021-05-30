@@ -1237,7 +1237,7 @@ GameObject:
   - component: {fileID: 964955737}
   - component: {fileID: 964955736}
   m_Layer: 5
-  m_Name: Restart Button
+  m_Name: Next Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1307,12 +1307,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 687343428}
-        m_MethodName: RestartLevel
-        m_Mode: 1
+        m_MethodName: NextLevel
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 2
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -1733,7 +1733,7 @@ GameObject:
   - component: {fileID: 1554811778}
   - component: {fileID: 1554811777}
   m_Layer: 5
-  m_Name: Restart Text
+  m_Name: Next Level Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1790,7 +1790,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Restart
+  m_Text: Next
 --- !u!222 &1554811778
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2194,7 +2194,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 687343428}
-        m_MethodName: Home
+        m_MethodName: GoToLevelSelectorScene
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2405,7 +2405,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 687343428}
-        m_MethodName: Home
+        m_MethodName: GoToLevelSelectorScene
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

@@ -52,11 +52,8 @@ public class MainMenu : MonoBehaviour
         }
     }
 
-    private void Quit()
+    public void Quit()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            Application.Quit();
-        }
+        Application.Quit();
     }
 }

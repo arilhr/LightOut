@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Orang
+  - Ladder
   layers:
   - Default
   - TransparentFX

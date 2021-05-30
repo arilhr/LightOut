@@ -27,6 +27,8 @@ public class Orang : MonoBehaviour
     private bool isMoving = false;
     private bool isUsingFurniture = false;
 
+    private Transform target;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -40,28 +42,51 @@ public class Orang : MonoBehaviour
 
     private void FixedUpdate()
     {
-        MoveToFurniture();
+        Move();
     }
 
-    private void MoveToFurniture()
+    private void Move()
     {
         if (!isMoving) return;
 
         Vector3 furniturePos = currentRoutine.furniture.GetFurniturePosition();
-        Vector2 targetPosition = new Vector2(furniturePos.x, transform.position.y);
 
-        if (transform.position.x != furniturePos.x)
+        // check if in the same floor or not
+        if (furniturePos.y != transform.position.y)
         {
-            Vector2 p = Vector2.MoveTowards(transform.position,
-                                            targetPosition,
-                                            speed);
+            Transform ladderRoom = FindLadderRoom(transform.position.y);
 
-            rb.MovePosition(p);
+            Vector2 targetPosition = new Vector2(ladderRoom.position.x, transform.position.y);
+            if (transform.position.x != ladderRoom.position.x)
+            {
+                Vector2 p = Vector2.MoveTowards(transform.position,
+                                                targetPosition,
+                                                speed);
+
+                rb.MovePosition(p);
+            }
+            else
+            {
+                ladderRoom = FindLadderRoom(furniturePos.y);
+                transform.position = ladderRoom.position;
+            }
         }
         else
         {
-            UseFurniture();
-            isMoving = false;
+            Vector2 targetPosition = new Vector2(furniturePos.x, transform.position.y);
+            if (transform.position.x != furniturePos.x)
+            {
+                Vector2 p = Vector2.MoveTowards(transform.position,
+                                                targetPosition,
+                                                speed);
+
+                rb.MovePosition(p);
+            }
+            else
+            {
+                UseFurniture();
+                isMoving = false;
+            }
         }
     }
 
@@ -90,6 +115,21 @@ public class Orang : MonoBehaviour
         }
     }
 
+    private Transform FindLadderRoom(float yPos)
+    {
+        GameObject[] ladderRoom = GameObject.FindGameObjectsWithTag("Ladder");
+        
+        foreach (GameObject lr in ladderRoom)
+        {
+            if (lr.transform.position.y == yPos)
+            {
+                return lr.transform;   
+            }
+        }
+
+        return null;
+    }
+
     public void Attacked()
     {
         isMoving = false;
@@ -103,21 +143,15 @@ public class Orang : MonoBehaviour
 
     private void DoRoutine()
     {
-        // controlled
-        foreach (Routine r in routines)
-        {
-            if (!r.furniture.IsFull)
-            {
-                currentRoutine = r;
-                break;
-            }
-        }
 
         // random
         while (true)
         {
-            currentRoutine = routines[Random.Range(0, routines.Length)];
+            int routineNum = Random.Range(0, routines.Length);
+            
+            currentRoutine = routines[routineNum];
 
+            
             if (!currentRoutine.furniture.IsFull)
             {
                 currentRoutine.furniture.AddUser();

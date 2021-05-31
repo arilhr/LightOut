@@ -7,7 +7,7 @@ public class Furniture : MonoBehaviour
 {
     [Header("User")]
     public int userSlot;
-    private int currentUser = 0;
+    public int currentUser = 0;
     private bool isOn = false;
     private bool isUsed = false;
     private bool isFull = false;
@@ -43,7 +43,10 @@ public class Furniture : MonoBehaviour
 
     private void Update()
     {
-        CheckToSpawnMonster();
+        if (!GameManager.isGameOver)
+        {
+            CheckToSpawnMonster();
+        }
     }
 
     public void AddUser()
@@ -120,7 +123,14 @@ public class Furniture : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (isOn)
+        if (isOn && !Penalty.Instance.isPenalty)
+        {
             TurnOff();
+
+            if (currentUser > 0)
+            {
+                Penalty.Instance.IsPenalty(true);
+            }
+        }
     }
 }

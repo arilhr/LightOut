@@ -42,7 +42,10 @@ public class Orang : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Move();
+        if (!GameManager.isGameOver)
+        {
+            Move();
+        }
     }
 
     private void Move()
@@ -133,6 +136,11 @@ public class Orang : MonoBehaviour
     public void Attacked()
     {
         isMoving = false;
+    }
+
+    public void SetIsMoving(bool m)
+    {
+        isMoving = m;
     }
 
     private void Penalties()

@@ -20,13 +20,17 @@ public class Monster : MonoBehaviour
     }
 
     private void Update()
-    { 
-        if (hp <= 0)
+    {
+        if (!GameManager.isGameOver)
         {
-            Die();
-        }
+            if (hp <= 0)
+            {
+                target.GetComponent<Orang>().SetIsMoving(true);
+                Die();
+            }
 
-        if (isAttacking) Attack();
+            if (isAttacking) Attack();
+        }
     }
 
     private void FixedUpdate()

@@ -7,6 +7,23 @@ using UnityEngine.Events;
 
 public class GameManager : MonoBehaviour
 {
+    private static GameManager instance = null;
+
+    #region Singleton
+    public static GameManager Instance
+    {
+        get
+        {
+            if(instance == null)
+            {
+                instance = FindObjectOfType<GameManager>();
+            }
+
+            return instance;
+        }
+    }
+    #endregion
+
     [Header("Value")]
     [SerializeField] public int minutes;
     [SerializeField] public float seconds;
@@ -16,15 +33,20 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Text secondsText;
     [SerializeField] private GameObject panelWin;
     [SerializeField] private GameObject panelLose;
+    [SerializeField] private GameObject panelPause;
 
-    public static UnityEvent GameLose;
-    public static UnityEvent GameWin;
+    public UnityEvent GameLose;
+    public UnityEvent GameWin;
 
     private Scene currentScene;
+    private bool isPaused = false;
 
-    //untuk cek kalo game dah selesai, update semua object berhenti. 
-    //taruh di script update orang, furniture, monster juga
-    public static bool isGameOver;
+    public bool isGameOver;
+    public bool IsPaused
+    {
+        get { return isPaused; }
+    }
+
 
     void Start()
     {
@@ -38,7 +60,7 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (!isGameOver)
+        if (!isGameOver && !isPaused)
         {
             CheckTimer();
             ShowTimer();
@@ -114,5 +136,17 @@ public class GameManager : MonoBehaviour
     public void GoToLevelSelectorScene()
     {
         SceneManager.LoadScene("LevelSelector");
+    }
+
+    public void Pause()
+    {
+        panelPause.SetActive(true);
+        isPaused = true;
+    }
+
+    public void Resume()
+    {
+        isPaused = false;
+        panelPause.SetActive(false);
     }
 }

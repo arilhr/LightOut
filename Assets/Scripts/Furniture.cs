@@ -7,7 +7,7 @@ public class Furniture : MonoBehaviour
 {
     [Header("User")]
     public int userSlot;
-    public int currentUser = 0;
+    private int currentUser = 0;
     private bool isOn = false;
     private bool isUsed = false;
     private bool isFull = false;
@@ -43,7 +43,7 @@ public class Furniture : MonoBehaviour
 
     private void Update()
     {
-        if (!GameManager.isGameOver)
+        if (!GameManager.Instance.isGameOver)
         {
             CheckToSpawnMonster();
         }
@@ -55,7 +55,7 @@ public class Furniture : MonoBehaviour
         CheckFull();
     }
 
-    public void Use(GameObject _lastUser)
+    public virtual void Use(GameObject _lastUser)
     {
         isOn = true;
         isUsed = true;
@@ -73,7 +73,7 @@ public class Furniture : MonoBehaviour
         CheckFull();
     }
 
-    public void TurnOff()
+    public virtual void TurnOff()
     {
         isOn = false;
 
@@ -121,7 +121,7 @@ public class Furniture : MonoBehaviour
         Debug.Log("Monster is spawned.");
     }
 
-    private void OnMouseDown()
+    public virtual void OnMouseDown()
     {
         if (isOn && !Penalty.Instance.isPenalty)
         {

@@ -42,7 +42,7 @@ public class Orang : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!GameManager.isGameOver)
+        if (!GameManager.Instance.isGameOver && !GameManager.Instance.IsPaused)
         {
             Move();
         }

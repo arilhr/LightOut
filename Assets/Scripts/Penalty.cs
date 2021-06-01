@@ -21,7 +21,7 @@ public class Penalty : MonoBehaviour
     }
     #endregion
 
-    private float penaltyTime = 2;
+    [SerializeField] private float penaltyTime = 2;
 
     [SerializeField] private GameObject penaltyModeText;
 

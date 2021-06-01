@@ -21,7 +21,7 @@ public class Monster : MonoBehaviour
 
     private void Update()
     {
-        if (!GameManager.isGameOver)
+        if (!GameManager.Instance.isGameOver)
         {
             if (hp <= 0)
             {
@@ -43,23 +43,43 @@ public class Monster : MonoBehaviour
         if (!isMoving) return;
 
         Vector3 targetPos = target.position;
-        Vector2 targetPosition = new Vector2(targetPos.x, transform.position.y);
 
-        if (transform.position.x != targetPos.x)
+        if (targetPos.y != transform.position.y)
         {
-            Vector2 p = Vector2.MoveTowards(transform.position,
-                                            targetPosition,
-                                            moveSpeed);
+            Transform ladder = FindLadderRoom(transform.position.y);
+            Vector2 targetPosition = new Vector2(ladder.position.x, transform.position.y);
 
-            rb.MovePosition(p);
+            if(transform.position.x != ladder.position.x)
+            {
+                Vector2 p = Vector2.MoveTowards(transform.position, targetPosition, moveSpeed);
+                rb.MovePosition(p);
+            }
+            else
+            {
+                ladder = FindLadderRoom(targetPos.y);
+                transform.position = ladder.position;
+            }
         }
         else
         {
-            // attack
-            isMoving = false;
-            isAttacking = true;
+            Vector2 targetPosition = new Vector2(targetPos.x, transform.position.y);
 
-            // animation
+            if (transform.position.x != targetPos.x)
+            {
+                Vector2 p = Vector2.MoveTowards(transform.position,
+                                                targetPosition,
+                                                moveSpeed);
+
+                rb.MovePosition(p);
+            }
+            else
+            {
+                // attack
+                isMoving = false;
+                isAttacking = true;
+
+                // animation
+            }
         }
     }
 
@@ -76,9 +96,9 @@ public class Monster : MonoBehaviour
         {
             // lose
 
-            if (GameManager.GameLose != null)
+            if (GameManager.Instance.GameLose != null)
             {
-                GameManager.GameLose.Invoke();
+                GameManager.Instance.GameLose.Invoke();
             }
         }
     }
@@ -86,6 +106,21 @@ public class Monster : MonoBehaviour
     private void Die()
     {
         Destroy(gameObject);
+    }
+
+    private Transform FindLadderRoom(float yPos)
+    {
+        GameObject[] ladderRoom = GameObject.FindGameObjectsWithTag("Ladder");
+
+        foreach (GameObject lr in ladderRoom)
+        {
+            if (lr.transform.position.y == yPos)
+            {
+                return lr.transform;
+            }
+        }
+
+        return null;
     }
 
     private void OnMouseDown()

@@ -11,7 +11,13 @@ public class MainMenu : MonoBehaviour
 
     private void Update()
     {
-        Quit();
+        if(Application.platform == RuntimePlatform.Android)
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                Quit();
+            }
+        }
     }
 
     public void Play(int index)

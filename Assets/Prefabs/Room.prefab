@@ -337,6 +337,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7448831488068322716}
   - component: {fileID: 6301103457762547254}
+  - component: {fileID: 3604914164745998079}
   m_Layer: 0
   m_Name: Room
   m_TagString: Untagged
@@ -369,7 +370,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7448831488068322719}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
@@ -388,3 +389,17 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 4.6231804, y: 2.5548358}
   m_EdgeRadius: 0
+--- !u!114 &3604914164745998079
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7448831488068322719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5dc0bcb5173fdbd4ab58f427f30ede32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  floor: 0
+  totalFurniture: 0

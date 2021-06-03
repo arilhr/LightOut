@@ -103,17 +103,19 @@ public class CameraZoom : MonoBehaviour
             cam.transform.position += dir;
 
             //bound camera
-            if (cam.transform.position.x >= 4.48f)
-            {
-                cam.transform.position = new Vector3(4.48f, cam.transform.position.y, cam.transform.position.z);
-            }
-            else if (cam.transform.position.x <= -4.48f)
-            {
-                cam.transform.position = new Vector3(-4.48f, cam.transform.position.y, cam.transform.position.z);
-            }
+            
 
             if (cam.orthographicSize < 4)
             {
+                if (cam.transform.position.x >= 20.77f)
+                {
+                    cam.transform.position = new Vector3(20.77f, cam.transform.position.y, cam.transform.position.z);
+                }
+                else if (cam.transform.position.x <= -10.48f)
+                {
+                    cam.transform.position = new Vector3(-10.48f, cam.transform.position.y, cam.transform.position.z);
+                }
+
                 if (cam.transform.position.y > 6.27f)
                 {
                     cam.transform.position = new Vector3(cam.transform.position.x, 6.27f, cam.transform.position.z);
@@ -123,21 +125,37 @@ public class CameraZoom : MonoBehaviour
                     cam.transform.position = new Vector3(cam.transform.position.x, -4.12f, cam.transform.position.z);
                 }
             }
-            else if (cam.orthographicSize < 8)
+            else if (cam.orthographicSize < 9)
             {
-                if (cam.transform.position.y > 3.43f)
+                if (cam.transform.position.x >= 10.49f)
                 {
-                    cam.transform.position = new Vector3(cam.transform.position.x, 3.43f, cam.transform.position.z);
+                    cam.transform.position = new Vector3(10.49f, cam.transform.position.y, cam.transform.position.z);
                 }
-                else if (cam.transform.position.y < -2.54f)
+                else if (cam.transform.position.x <= -1.49f)
                 {
-                    cam.transform.position = new Vector3(cam.transform.position.x, -2.54f, cam.transform.position.z);
+                    cam.transform.position = new Vector3(-1.49f, cam.transform.position.y, cam.transform.position.z);
+                }
+
+                if (cam.transform.position.y > 1.44f)
+                {
+                    cam.transform.position = new Vector3(cam.transform.position.x, 1.44f, cam.transform.position.z);
+                }
+                else if (cam.transform.position.y < -0.54f)
+                {
+                    cam.transform.position = new Vector3(cam.transform.position.x, -0.54f, cam.transform.position.z);
                 }
             }
-            else if (cam.orthographicSize == 8)
+            /*else if (cam.orthographicSize == 8)
             {
-                cam.transform.position = firstPosition;
-            }
+                if(cam.transform.position.x >= 13.11f)
+                {
+                    cam.transform.position = new Vector3(13.11f, cam.transform.position.y, cam.transform.position.z);
+                } 
+                else if(cam.transform.position.x <= 2.59f)
+                {
+                    cam.transform.position = new Vector3(2.59f, 0, cam.transform.position.z);
+                }
+            }*/
         }
 
         Zoom();

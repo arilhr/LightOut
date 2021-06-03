@@ -14,15 +14,18 @@ public class Furniture : MonoBehaviour
     private GameObject lastUser;
 
     [Header("Spawn Monster")]
-    public Monster monster;
+    //public Monster monster;
     public float timeToSpawnMonster;
     private float currentTimeSpawn = 0;
     public Image percentageToSpawn;
-    private bool monsterIsSpawned = false;
-
-    private Room room;
+    private bool spawnMode = false;
+    private bool waitMode = false;
+    private float currentTimeWait = 0;
+    private float waitModeDuration = 4;
 
     private Animator furnitureAnim;
+
+    private List<Orang> targets = new List<Orang>();
 
     public int CurrentUser
     {
@@ -39,11 +42,6 @@ public class Furniture : MonoBehaviour
         get { return isFull; }
     }
 
-    public bool MonsterIsSpawned
-    {
-        get { return monsterIsSpawned; }
-    }
-
     private void Start()
     {
         furnitureAnim = GetComponent<Animator>();
@@ -54,6 +52,8 @@ public class Furniture : MonoBehaviour
         if (!GameManager.Instance.isGameOver)
         {
             CheckToSpawnMonster();
+            DetectNPC();
+            WaitMode();
         }
     }
 
@@ -84,9 +84,70 @@ public class Furniture : MonoBehaviour
     public virtual void TurnOff()
     {
         isOn = false;
-        monsterIsSpawned = false;
+        spawnMode = false;
+        waitMode = false;
 
         furnitureAnim.SetBool("On", false);
+        furnitureAnim.SetBool("Spawn", false);
+        furnitureAnim.SetBool("Wait", false);
+    }
+
+    private void DetectNPC()
+    {
+        if (spawnMode)
+        {
+            Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, 2);
+
+            foreach (Collider2D col in hits)
+            {
+                Orang o = col.GetComponent<Orang>();
+
+                if (o != null)
+                {
+                    targets.Add(o);
+                }
+            }
+
+            if(targets.Count > 0)
+            {
+                furnitureAnim.SetBool("Wait", true);
+                furnitureAnim.SetBool("Spawn", false);
+                spawnMode = false;
+                waitMode = true;
+            }
+        }
+    }
+
+    private void WaitMode()
+    {
+        if (waitMode)
+        {
+            currentTimeWait += Time.deltaTime;
+            percentageToSpawn.color = Color.red;
+            percentageToSpawn.fillAmount = currentTimeWait / waitModeDuration;
+            
+            if (currentTimeWait >= waitModeDuration)
+            {
+                furnitureAnim.SetBool("Wait", false);
+                furnitureAnim.SetBool("Attack", true);
+                currentTimeWait = 0;
+
+                foreach (Orang o in targets)
+                {
+                    o.Attacked();
+                }
+
+                waitMode = false;
+
+                GameManager.Instance.isGameOver = true;
+                GameManager.Instance.GameLose.Invoke();
+            }
+        }
+        else
+        {
+            currentTimeWait = 0;
+            percentageToSpawn.fillAmount = currentTimeWait / waitModeDuration;
+        }
     }
 
     private void CheckFull()
@@ -104,14 +165,20 @@ public class Furniture : MonoBehaviour
 
     private void CheckToSpawnMonster()
     {
-        if (!isUsed && isOn)
+        if (!isUsed && isOn && !spawnMode)
         {
             currentTimeSpawn += Time.deltaTime;
+            percentageToSpawn.color = Color.white;
             percentageToSpawn.fillAmount = currentTimeSpawn / timeToSpawnMonster;
+
             if (currentTimeSpawn >= timeToSpawnMonster)
             {
-                SpawnMonster();
+                furnitureAnim.SetBool("Spawn", true);
+                spawnMode = true;
                 currentTimeSpawn = 0;
+                percentageToSpawn.fillAmount = 0;
+                //SpawnMonster();
+                //currentTimeSpawn = 0;
             }
         }
         else
@@ -123,18 +190,13 @@ public class Furniture : MonoBehaviour
 
     private void SpawnMonster()
     {
-        var m = Instantiate(monster.gameObject, transform.position, Quaternion.identity);
-        Monster mScript = m.GetComponent<Monster>();
-        mScript.SetTarget(lastUser.transform);
-        monsterIsSpawned = true;
+        //var m = Instantiate(monster.gameObject, transform.position, Quaternion.identity);
+        //Monster mScript = m.GetComponent<Monster>();
+        //mScript.SetTarget(lastUser.transform);
+        //monsterIsSpawned = true;
 
         Debug.Log("Monster is spawned.");
     }
-
-    public void SetRoom(Room r)
-    {
-        room = r;
-    } 
 
     public virtual void OnMouseDown()
     {

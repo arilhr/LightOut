@@ -128,11 +128,6 @@ public class Monster : MonoBehaviour
         return null;
     }
 
-    /*public void SetFurnitureParent(Furniture f)
-    {
-        furniture = f;
-    }*/
-
     private void OnMouseDown()
     {
         hp--;

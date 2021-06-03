@@ -31,17 +31,21 @@ public class Orang : MonoBehaviour
 
     private Room currentRoom;
 
+    private Animator anim;
+
+    private float facing;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         DoRoutine();
         currentRoom = null;
+        anim = GetComponent<Animator>();
     }
 
     private void Update()
     {
         UsingFurniture();
-        //Debug.Log("Name: " + gameObject.name + " Curr Room: " + currentRoom);
     }
 
     private void FixedUpdate()
@@ -64,6 +68,8 @@ public class Orang : MonoBehaviour
             Transform ladderRoom = FindLadderRoom(transform.position.y);
 
             Vector2 targetPosition = new Vector2(ladderRoom.position.x, transform.position.y);
+            Vector2 dir = targetPosition - (Vector2)transform.position;
+
             if (transform.position.x != ladderRoom.position.x)
             {
                 Vector2 p = Vector2.MoveTowards(transform.position,
@@ -71,16 +77,26 @@ public class Orang : MonoBehaviour
                                                 speed);
 
                 rb.MovePosition(p);
-            }
+                anim.SetBool("Idle", false);
+                if(dir.normalized == Vector2.right)
+                {
+                    anim.SetFloat("Facing", 1);
+                }
+                else
+                {
+                    anim.SetFloat("Facing", -1);
+                }
+            } 
             else
             {
                 ladderRoom = FindLadderRoom(furniturePos.y);
                 transform.position = ladderRoom.position;
-            }
+            } 
         }
         else
         {
             Vector2 targetPosition = new Vector2(furniturePos.x, transform.position.y);
+            Vector2 dir = targetPosition - (Vector2)transform.position;
             if (transform.position.x != furniturePos.x)
             {
                 Vector2 p = Vector2.MoveTowards(transform.position,
@@ -88,6 +104,16 @@ public class Orang : MonoBehaviour
                                                 speed);
 
                 rb.MovePosition(p);
+                anim.SetBool("Idle", false);
+
+                if (dir.normalized == Vector2.right)
+                {
+                    anim.SetFloat("Facing", 1);
+                }
+                else
+                {
+                    anim.SetFloat("Facing", -1);
+                }
             }
             else
             {
@@ -103,6 +129,7 @@ public class Orang : MonoBehaviour
         isUsingFurniture = true;
 
         // animation
+        anim.SetBool("Idle", true);
     }
 
     private void UsingFurniture()
@@ -153,11 +180,6 @@ public class Orang : MonoBehaviour
 
     }
 
-    private void SetCurrentRoom(Room r)
-    {
-        currentRoom = r;
-    }
-
     private void DoRoutine()
     {
 
@@ -179,11 +201,32 @@ public class Orang : MonoBehaviour
         }
     }
 
+    IEnumerator LadderAnimDelayTime(float time, Transform ladder)
+    {
+        LadderRoomManager ladderRoom = ladder.GetComponent<LadderRoomManager>();
+        ladderRoom.Open(true);
+        yield return new WaitForSeconds(time);
+        ladderRoom.Open(false);
+    }
+
+    IEnumerator DoorAnimDelayTime(float time, Transform door)
+    {
+        Door doorObj = door.GetComponent<Door>();
+        doorObj.Open(true);
+        yield return new WaitForSeconds(time);
+        doorObj.Open(false);
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Room"))
+        if (collision.gameObject.CompareTag("Ladder"))
         {
-            SetCurrentRoom(collision.gameObject.GetComponent<Room>());
+            StartCoroutine(LadderAnimDelayTime(0.5f, collision.gameObject.transform));
+        }
+
+        if (collision.gameObject.CompareTag("Door"))
+        {
+            StartCoroutine(DoorAnimDelayTime(0.5f, collision.gameObject.transform));
         }
     }
 }

@@ -37,7 +37,10 @@ public class Monster : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Move();
+        if (!GameManager.Instance.isGameOver) 
+        {
+            Move();
+        }
     }
 
     private void Move()
@@ -141,6 +144,7 @@ public class Monster : MonoBehaviour
         {
             Orang orang = collision.gameObject.GetComponent<Orang>();
             orang.Attacked();
+            target = orang.transform;
         }
     }
 }

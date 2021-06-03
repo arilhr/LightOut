@@ -36,9 +36,9 @@ public class LevelManager : MonoBehaviour
         SceneManager.LoadScene(0);
     }
 
-    public void ResetLevel()
+    /*public void ResetLevel()
     {
         PlayerPrefs.DeleteKey("levelReached");
         ConfigureButtonLevel();
-    }
+    }*/
 }

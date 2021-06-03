@@ -41,7 +41,7 @@ public class Orang : MonoBehaviour
     private void Update()
     {
         UsingFurniture();
-        Debug.Log("Name: " + gameObject.name + " Curr Room: " + currentRoom);
+        //Debug.Log("Name: " + gameObject.name + " Curr Room: " + currentRoom);
     }
 
     private void FixedUpdate()

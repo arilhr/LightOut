@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Orang
   - Ladder
+  - Setting
+  - Room
   layers:
   - Default
   - TransparentFX

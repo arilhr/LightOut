@@ -92,7 +92,7 @@ public class CameraZoom : MonoBehaviour
             if (Input.GetMouseButtonDown(0))
             {
                 cam.transform.position = new Vector3(target.x, target.y, cam.transform.position.z);
-                cam.orthographicSize = 1.5f;
+                cam.orthographicSize = 2;
                 zoomActive = true;
             }
         }

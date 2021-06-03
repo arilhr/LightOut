@@ -29,15 +29,19 @@ public class Orang : MonoBehaviour
 
     private Transform target;
 
+    private Room currentRoom;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         DoRoutine();
+        currentRoom = null;
     }
 
     private void Update()
     {
         UsingFurniture();
+        Debug.Log("Name: " + gameObject.name + " Curr Room: " + currentRoom);
     }
 
     private void FixedUpdate()
@@ -149,6 +153,11 @@ public class Orang : MonoBehaviour
 
     }
 
+    private void SetCurrentRoom(Room r)
+    {
+        currentRoom = r;
+    }
+
     private void DoRoutine()
     {
 
@@ -167,6 +176,14 @@ public class Orang : MonoBehaviour
                 break;
             }
 
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Room"))
+        {
+            SetCurrentRoom(collision.gameObject.GetComponent<Room>());
         }
     }
 }

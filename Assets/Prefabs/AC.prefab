@@ -15,17 +15,17 @@ PrefabInstance:
     - target: {fileID: 853292217238694446, guid: 434e4d2ae110f8944b06b7bff9452d0b,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 1.5
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 853292217238694446, guid: 434e4d2ae110f8944b06b7bff9452d0b,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 1.5
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 853292217238694446, guid: 434e4d2ae110f8944b06b7bff9452d0b,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 1.5
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 1698319027255380198, guid: 434e4d2ae110f8944b06b7bff9452d0b,
         type: 3}
@@ -36,12 +36,21 @@ PrefabInstance:
         type: 3}
       propertyPath: monster
       value: 
-      objectReference: {fileID: 2309509532751517647, guid: dbdf6864bba046e45a409363b5251373,
-        type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 1749289976805863987, guid: 434e4d2ae110f8944b06b7bff9452d0b,
         type: 3}
       propertyPath: timeToSpawnMonster
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4874351588939828766, guid: 434e4d2ae110f8944b06b7bff9452d0b,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 1.68
+      objectReference: {fileID: 0}
+    - target: {fileID: 4874351588939828766, guid: 434e4d2ae110f8944b06b7bff9452d0b,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 0.78
       objectReference: {fileID: 0}
     - target: {fileID: 4874351588939828766, guid: 434e4d2ae110f8944b06b7bff9452d0b,
         type: 3}

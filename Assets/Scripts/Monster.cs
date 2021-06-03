@@ -14,6 +14,8 @@ public class Monster : MonoBehaviour
     private Rigidbody2D rb;
     private Transform target;
 
+    private Furniture furniture;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -122,6 +124,11 @@ public class Monster : MonoBehaviour
 
         return null;
     }
+
+    /*public void SetFurnitureParent(Furniture f)
+    {
+        furniture = f;
+    }*/
 
     private void OnMouseDown()
     {

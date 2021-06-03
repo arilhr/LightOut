@@ -14,10 +14,13 @@ public class Furniture : MonoBehaviour
     private GameObject lastUser;
 
     [Header("Spawn Monster")]
-    public GameObject monster;
+    public Monster monster;
     public float timeToSpawnMonster;
     private float currentTimeSpawn = 0;
     public Image percentageToSpawn;
+    private bool monsterIsSpawned = false;
+
+    private Room room;
 
     private Animator furnitureAnim;
 
@@ -34,6 +37,11 @@ public class Furniture : MonoBehaviour
     public bool IsFull
     {
         get { return isFull; }
+    }
+
+    public bool MonsterIsSpawned
+    {
+        get { return monsterIsSpawned; }
     }
 
     private void Start()
@@ -76,6 +84,7 @@ public class Furniture : MonoBehaviour
     public virtual void TurnOff()
     {
         isOn = false;
+        monsterIsSpawned = false;
 
         furnitureAnim.SetBool("On", false);
     }
@@ -114,12 +123,18 @@ public class Furniture : MonoBehaviour
 
     private void SpawnMonster()
     {
-        var m = Instantiate(monster, transform.position, Quaternion.identity);
+        var m = Instantiate(monster.gameObject, transform.position, Quaternion.identity);
         Monster mScript = m.GetComponent<Monster>();
         mScript.SetTarget(lastUser.transform);
+        monsterIsSpawned = true;
 
         Debug.Log("Monster is spawned.");
     }
+
+    public void SetRoom(Room r)
+    {
+        room = r;
+    } 
 
     public virtual void OnMouseDown()
     {

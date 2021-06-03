@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   userSlot: 1
-  monster: {fileID: 2309509532751517647, guid: dbdf6864bba046e45a409363b5251373, type: 3}
+  monster: {fileID: 0}
   timeToSpawnMonster: 3
   percentageToSpawn: {fileID: 4465494638090361403}
   bohlam: {fileID: 8156966287340701643, guid: 1534dd1703414bf43a52e928c2906cf9, type: 3}
@@ -32,42 +32,47 @@ PrefabInstance:
     - target: {fileID: 853292217238694446, guid: 434e4d2ae110f8944b06b7bff9452d0b,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 1
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 853292217238694446, guid: 434e4d2ae110f8944b06b7bff9452d0b,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 1
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 853292217238694446, guid: 434e4d2ae110f8944b06b7bff9452d0b,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 1
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 853292217238694446, guid: 434e4d2ae110f8944b06b7bff9452d0b,
         type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.383
       objectReference: {fileID: 0}
+    - target: {fileID: 853292217238694446, guid: 434e4d2ae110f8944b06b7bff9452d0b,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.86
+      objectReference: {fileID: 0}
     - target: {fileID: 942442949766602153, guid: 434e4d2ae110f8944b06b7bff9452d0b,
         type: 3}
       propertyPath: m_Size.x
-      value: 0.9854771
+      value: 1.2487974
       objectReference: {fileID: 0}
     - target: {fileID: 942442949766602153, guid: 434e4d2ae110f8944b06b7bff9452d0b,
         type: 3}
       propertyPath: m_Size.y
-      value: 1.0081893
+      value: 2.232606
       objectReference: {fileID: 0}
     - target: {fileID: 942442949766602153, guid: 434e4d2ae110f8944b06b7bff9452d0b,
         type: 3}
       propertyPath: m_Offset.x
-      value: 0.69728035
+      value: 0.5656202
       objectReference: {fileID: 0}
     - target: {fileID: 942442949766602153, guid: 434e4d2ae110f8944b06b7bff9452d0b,
         type: 3}
       propertyPath: m_Offset.y
-      value: 0.5261056
+      value: 1.138314
       objectReference: {fileID: 0}
     - target: {fileID: 1698319027255380198, guid: 434e4d2ae110f8944b06b7bff9452d0b,
         type: 3}
@@ -105,6 +110,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Color.r
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7797805185190558144, guid: 434e4d2ae110f8944b06b7bff9452d0b,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 2.53
       objectReference: {fileID: 0}
     - target: {fileID: 8972505716719020871, guid: 434e4d2ae110f8944b06b7bff9452d0b,
         type: 3}

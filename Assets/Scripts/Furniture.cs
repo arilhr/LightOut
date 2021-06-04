@@ -43,6 +43,9 @@ public class Furniture : MonoBehaviour
         get { return isFull; }
     }
 
+    public bool GetSpawnMode { get { return spawnMode; } }
+    public bool GetWaitMode { get { return waitMode; } }
+
     private void Start()
     {
         furnitureAnim = GetComponent<Animator>();
@@ -64,11 +67,11 @@ public class Furniture : MonoBehaviour
         CheckFull();
     }
 
-    public virtual void Use(GameObject _lastUser)
+    public virtual void Use()
     {
         isOn = true;
         isUsed = true;
-        lastUser = _lastUser;
+        //lastUser = _lastUser;
 
         furnitureAnim.SetBool("On", true);
     }
@@ -85,6 +88,7 @@ public class Furniture : MonoBehaviour
     public virtual void TurnOff()
     {
         isOn = false;
+        isUsed = false;
         spawnMode = false;
         waitMode = false;
 
@@ -93,36 +97,43 @@ public class Furniture : MonoBehaviour
             o.SetIsMoving(true);
         }
 
+        targets.RemoveAll(MovingTrue);
+
         furnitureAnim.SetBool("On", false);
         furnitureAnim.SetBool("Spawn", false);
         furnitureAnim.SetBool("Wait", false);
     }
 
+    private static bool MovingTrue(Orang o)
+    {
+        return o.IsMoving == true;
+    }
+
     private void SpawnMode()
     {
-        if (spawnMode)
-        {
-            Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, 2);
-
-            foreach (Collider2D col in hits)
+            if (spawnMode)
             {
-                Orang o = col.GetComponent<Orang>();
+                Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, 2);
 
-                if (o != null)
+                foreach (Collider2D col in hits)
                 {
-                    targets.Add(o);
-                    o.Attacked();
+                    Orang o = col.GetComponent<Orang>();
+
+                    if (o != null)
+                    {
+                        targets.Add(o);
+                        o.Attacked();
+                    }
+                }
+
+                if (targets.Count > 0)
+                {
+                    furnitureAnim.SetBool("Wait", true);
+                    furnitureAnim.SetBool("Spawn", false);
+                    spawnMode = false;
+                    waitMode = true;
                 }
             }
-
-            if(targets.Count > 0)
-            {
-                furnitureAnim.SetBool("Wait", true);
-                furnitureAnim.SetBool("Spawn", false);
-                spawnMode = false;
-                waitMode = true;
-            }
-        }
     }
 
     private void WaitMode()
@@ -174,13 +185,13 @@ public class Furniture : MonoBehaviour
     {
         if (!isUsed && isOn && !spawnMode)
         {
+            furnitureAnim.SetBool("Spawn", true);
             currentTimeSpawn += Time.deltaTime;
             percentageToSpawn.color = Color.white;
             percentageToSpawn.fillAmount = currentTimeSpawn / timeToSpawnMonster;
             
             if (currentTimeSpawn >= timeToSpawnMonster)
             {
-                furnitureAnim.SetBool("Spawn", true);
                 spawnMode = true;
                 currentTimeSpawn = 0;
                 percentageToSpawn.fillAmount = 0;

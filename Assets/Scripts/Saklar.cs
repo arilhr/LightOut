@@ -6,11 +6,11 @@ public class Saklar : Furniture
 {
     public Bohlam bohlam;
 
-    public override void Use(GameObject _lastUser)
+    /*public override void Use(])
     {
-        base.Use(_lastUser);
+        base.Use();
         bohlam.On(true);
-    }
+    }*/
 
     public override void TurnOff()
     {

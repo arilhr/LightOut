@@ -122,15 +122,23 @@ public class Orang : MonoBehaviour
             }
             else
             {
-                UseFurniture();
-                isMoving = false;
+                if(!currentRoutine.furniture.GetSpawnMode || !currentRoutine.furniture.GetWaitMode || !currentRoutine.furniture.IsOn)
+                {
+                    Debug.Log("Masuk sini");
+                    UseFurniture();
+                    isMoving = false;
+                }
+                else
+                {
+                    DoRoutine();
+                }
             }
         }
     }
 
     private void UseFurniture()
     {
-        currentRoutine.furniture.Use(gameObject);
+        currentRoutine.furniture.Use();
         currentRoutine.furniture.AddUser();
         isUsingFurniture = true;
 

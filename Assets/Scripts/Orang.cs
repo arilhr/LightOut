@@ -17,6 +17,7 @@ public class Orang : MonoBehaviour
     [Header("Routine")]
     public Routine[] routines;
     private Routine currentRoutine;
+    private Routine prevRoutine;
     private float currentUseTime = 0;
 
     [Header("Penalties")]
@@ -29,23 +30,27 @@ public class Orang : MonoBehaviour
 
     private Transform target;
 
-    private Room currentRoom;
-
     private Animator anim;
 
     private float facing;
+
+    public bool IsMoving { get { return isMoving; } }
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         DoRoutine();
-        currentRoom = null;
         anim = GetComponent<Animator>();
     }
 
     private void Update()
-    {
+    { 
         UsingFurniture();
+
+        if (isMoving)
+        {
+            anim.SetBool("Idle", false);
+        }
     }
 
     private void FixedUpdate()
@@ -126,6 +131,7 @@ public class Orang : MonoBehaviour
     private void UseFurniture()
     {
         currentRoutine.furniture.Use(gameObject);
+        currentRoutine.furniture.AddUser();
         isUsingFurniture = true;
 
         // animation
@@ -167,6 +173,7 @@ public class Orang : MonoBehaviour
     public void Attacked()
     {
         isMoving = false;
+        anim.SetBool("Idle", true);
     }
 
     public void SetIsMoving(bool m)
@@ -182,7 +189,6 @@ public class Orang : MonoBehaviour
 
     private void DoRoutine()
     {
-
         // random
         while (true)
         {
@@ -190,14 +196,16 @@ public class Orang : MonoBehaviour
             
             currentRoutine = routines[routineNum];
 
-            
-            if (!currentRoutine.furniture.IsFull)
+            if(currentRoutine.furniture != prevRoutine.furniture)
             {
-                currentRoutine.furniture.AddUser();
-                isMoving = true;
-                break;
+                if (!currentRoutine.furniture.IsFull)
+                {
+                    prevRoutine = currentRoutine;
+                    //currentRoutine.furniture.AddUser();
+                    isMoving = true;
+                    break;
+                }
             }
-
         }
     }
 

@@ -18,6 +18,7 @@ public class Furniture : MonoBehaviour
     public float timeToSpawnMonster;
     private float currentTimeSpawn = 0;
     public Image percentageToSpawn;
+    public Image percentageToAttack;
     private bool spawnMode = false;
     private bool waitMode = false;
     private float currentTimeWait = 0;
@@ -25,7 +26,7 @@ public class Furniture : MonoBehaviour
 
     private Animator furnitureAnim;
 
-    private List<Orang> targets = new List<Orang>();
+    public List<Orang> targets = new List<Orang>();
 
     public int CurrentUser
     {
@@ -52,7 +53,7 @@ public class Furniture : MonoBehaviour
         if (!GameManager.Instance.isGameOver)
         {
             CheckToSpawnMonster();
-            DetectNPC();
+            SpawnMode();
             WaitMode();
         }
     }
@@ -87,12 +88,17 @@ public class Furniture : MonoBehaviour
         spawnMode = false;
         waitMode = false;
 
+        foreach (Orang o in targets)
+        {
+            o.SetIsMoving(true);
+        }
+
         furnitureAnim.SetBool("On", false);
         furnitureAnim.SetBool("Spawn", false);
         furnitureAnim.SetBool("Wait", false);
     }
 
-    private void DetectNPC()
+    private void SpawnMode()
     {
         if (spawnMode)
         {
@@ -105,6 +111,7 @@ public class Furniture : MonoBehaviour
                 if (o != null)
                 {
                     targets.Add(o);
+                    o.Attacked();
                 }
             }
 
@@ -123,8 +130,8 @@ public class Furniture : MonoBehaviour
         if (waitMode)
         {
             currentTimeWait += Time.deltaTime;
-            percentageToSpawn.color = Color.red;
-            percentageToSpawn.fillAmount = currentTimeWait / waitModeDuration;
+            percentageToAttack.color = Color.red;
+            percentageToAttack.fillAmount = currentTimeWait / waitModeDuration;
             
             if (currentTimeWait >= waitModeDuration)
             {
@@ -170,7 +177,7 @@ public class Furniture : MonoBehaviour
             currentTimeSpawn += Time.deltaTime;
             percentageToSpawn.color = Color.white;
             percentageToSpawn.fillAmount = currentTimeSpawn / timeToSpawnMonster;
-
+            
             if (currentTimeSpawn >= timeToSpawnMonster)
             {
                 furnitureAnim.SetBool("Spawn", true);

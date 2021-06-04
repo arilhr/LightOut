@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour
     [Header("Value")]
     [SerializeField] public int minutes;
     [SerializeField] public float seconds;
+    public bool isGameOver;
 
     [Header("User Interface")]
     [SerializeField] private Text minutesText;
@@ -35,18 +36,20 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject panelLose;
     [SerializeField] private GameObject panelPause;
 
+    [Header("Sounds")]
+    [SerializeField] private AudioSource bgm;
+    [SerializeField] private AudioSource buttonClick;
+
     public UnityEvent GameLose;
     public UnityEvent GameWin;
 
     private Scene currentScene;
     private bool isPaused = false;
 
-    public bool isGameOver;
     public bool IsPaused
     {
         get { return isPaused; }
     }
-
 
     void Start()
     {
@@ -56,6 +59,10 @@ public class GameManager : MonoBehaviour
         GameLose = new UnityEvent();
         GameWin.AddListener(ShowPanelWin);
         GameLose.AddListener(ShowPanelLose);
+        bgm = GetComponent<AudioSource>();
+        bgm.volume = PlayerPrefs.GetFloat("Volume");
+        buttonClick.volume = PlayerPrefs.GetFloat("Volume");
+        PlayBGM();
     }
 
     void Update()
@@ -108,7 +115,6 @@ public class GameManager : MonoBehaviour
         {
             secondsText.text = Mathf.RoundToInt(seconds).ToString();
         }
-        
     }
 
     private void ShowPanelWin()
@@ -148,5 +154,21 @@ public class GameManager : MonoBehaviour
     {
         isPaused = false;
         panelPause.SetActive(false);
+    }
+
+    private void PlayBGM()
+    {
+        bgm.Play();
+    }
+
+    public void PlaySFX()
+    {
+        buttonClick.Play();
+    }
+
+    public void SetVolume(float volume)
+    {
+        AudioListener.volume = volume;
+        PlayerPrefs.SetFloat("Volume", volume);
     }
 }

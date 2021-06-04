@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 450876896551265442, guid: 434e4d2ae110f8944b06b7bff9452d0b,
+        type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 2cbf068c66f503e4ca37064a1d2577ad, type: 3}
     - target: {fileID: 829770911433836368, guid: 434e4d2ae110f8944b06b7bff9452d0b,
         type: 3}
       propertyPath: m_Controller
@@ -93,6 +98,21 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4874351588939828766, guid: 434e4d2ae110f8944b06b7bff9452d0b,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5780875905089023727, guid: 434e4d2ae110f8944b06b7bff9452d0b,
+        type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 90aaae4951a84fc46a7dc530fda75f95, type: 3}
+    - target: {fileID: 6442373564981469676, guid: 434e4d2ae110f8944b06b7bff9452d0b,
+        type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: d3660f02eb2d7b04a814414e397f13a0, type: 3}
     - target: {fileID: 7797805185190558144, guid: 434e4d2ae110f8944b06b7bff9452d0b,
         type: 3}
       propertyPath: m_AnchoredPosition.x

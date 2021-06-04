@@ -49,6 +49,12 @@ TagManager:
   - name: Room
     uniqueID: 3955822153
     locked: 0
+  - name: Orang
+    uniqueID: 4122348211
+    locked: 0
+  - name: Rumah
+    uniqueID: 1010073501
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0

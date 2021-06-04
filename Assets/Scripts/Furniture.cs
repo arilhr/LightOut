@@ -24,6 +24,11 @@ public class Furniture : MonoBehaviour
     private float currentTimeWait = 0;
     private float waitModeDuration = 4;
 
+    [Header("Sounds")]
+    [SerializeField] private AudioSource onSfx;
+    [SerializeField] private AudioSource spawnSfx;
+    [SerializeField] private AudioSource attackSfx;
+
     private Animator furnitureAnim;
 
     public List<Orang> targets = new List<Orang>();
@@ -49,11 +54,14 @@ public class Furniture : MonoBehaviour
     private void Start()
     {
         furnitureAnim = GetComponent<Animator>();
+        onSfx.volume = PlayerPrefs.GetFloat("Volume");
+        spawnSfx.volume = PlayerPrefs.GetFloat("Volume");
+        attackSfx.volume = PlayerPrefs.GetFloat("Volume");
     }
 
     private void Update()
     {
-        if (!GameManager.Instance.isGameOver)
+        if (!GameManager.Instance.isGameOver && !GameManager.Instance.IsPaused)
         {
             CheckToSpawnMonster();
             SpawnMode();
@@ -74,6 +82,7 @@ public class Furniture : MonoBehaviour
         //lastUser = _lastUser;
 
         furnitureAnim.SetBool("On", true);
+        onSfx.Play();
     }
 
     public void Unuse()
@@ -102,6 +111,9 @@ public class Furniture : MonoBehaviour
         furnitureAnim.SetBool("On", false);
         furnitureAnim.SetBool("Spawn", false);
         furnitureAnim.SetBool("Wait", false);
+        onSfx.Stop();
+        spawnSfx.Stop();
+        attackSfx.Stop();
     }
 
     private static bool MovingTrue(Orang o)
@@ -148,6 +160,7 @@ public class Furniture : MonoBehaviour
             {
                 furnitureAnim.SetBool("Wait", false);
                 furnitureAnim.SetBool("Attack", true);
+                attackSfx.Play();
                 currentTimeWait = 0;
 
                 foreach (Orang o in targets)
@@ -186,6 +199,7 @@ public class Furniture : MonoBehaviour
         if (!isUsed && isOn && !spawnMode)
         {
             furnitureAnim.SetBool("Spawn", true);
+            spawnSfx.Play();
             currentTimeSpawn += Time.deltaTime;
             percentageToSpawn.color = Color.white;
             percentageToSpawn.fillAmount = currentTimeSpawn / timeToSpawnMonster;

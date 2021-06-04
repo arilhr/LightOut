@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
@@ -9,9 +10,24 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private GameObject tutorialPanel;
     [SerializeField] private GameObject creditPanel;
 
+    [SerializeField] private AudioSource bgm;
+    [SerializeField] private AudioSource buttonClick;
+    [SerializeField] private Slider slider;
+
+    private void Start()
+    {
+        bgm = GetComponent<AudioSource>();
+        slider.value = 0.5f;
+        PlayerPrefs.SetFloat("Volume", slider.value);
+        bgm.Play();
+    }
+
     private void Update()
     {
-        if(Application.platform == RuntimePlatform.Android)
+        bgm.volume = slider.value;
+        buttonClick.volume = slider.value;
+        PlayerPrefs.SetFloat("Volume", slider.value);
+        if (Application.platform == RuntimePlatform.Android)
         {
             if (Input.GetKeyDown(KeyCode.Escape))
             {
@@ -56,6 +72,11 @@ public class MainMenu : MonoBehaviour
         {
             creditPanel.SetActive(false);
         }
+    }
+
+    public void PlaySFX()
+    {
+        buttonClick.Play();
     }
 
     public void Quit()

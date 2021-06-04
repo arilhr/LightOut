@@ -8,9 +8,16 @@ public class LevelManager : MonoBehaviour
 {
     public Button[] levelButtons;
 
+    [SerializeField] private AudioSource bgm;
+    [SerializeField] private AudioSource buttonClick;
+
     private void Start()
     {
+        bgm = GetComponent<AudioSource>();
         ConfigureButtonLevel();
+        buttonClick.volume = PlayerPrefs.GetFloat("Volume");
+        bgm.volume = PlayerPrefs.GetFloat("Volume");
+        bgm.Play();
     }
 
     private void ConfigureButtonLevel()
@@ -34,6 +41,11 @@ public class LevelManager : MonoBehaviour
     public void BackToMainMenu()
     {
         SceneManager.LoadScene(0);
+    }
+
+    public void PlaySFX()
+    {
+        buttonClick.Play();
     }
 
     /*public void ResetLevel()

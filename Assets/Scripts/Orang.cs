@@ -70,12 +70,12 @@ public class Orang : MonoBehaviour
         // check if in the same floor or not
         if (furniturePos.y != transform.position.y)
         {
-            Transform ladderRoom = FindLadderRoom(transform.position.y);
+            Transform door = FindDoor(transform.position.y);
 
-            Vector2 targetPosition = new Vector2(ladderRoom.position.x, transform.position.y);
+            Vector2 targetPosition = new Vector2(door.position.x, transform.position.y);
             Vector2 dir = targetPosition - (Vector2)transform.position;
 
-            if (transform.position.x != ladderRoom.position.x)
+            if (transform.position.x != door.position.x)
             {
                 Vector2 p = Vector2.MoveTowards(transform.position,
                                                 targetPosition,
@@ -94,8 +94,8 @@ public class Orang : MonoBehaviour
             } 
             else
             {
-                ladderRoom = FindLadderRoom(furniturePos.y);
-                transform.position = ladderRoom.position;
+                door = FindLadderRoom(furniturePos.y);
+                transform.position = door.position;
             } 
         }
         else
@@ -124,7 +124,6 @@ public class Orang : MonoBehaviour
             {
                 if(!currentRoutine.furniture.GetSpawnMode || !currentRoutine.furniture.GetWaitMode || !currentRoutine.furniture.IsOn)
                 {
-                    Debug.Log("Masuk sini");
                     UseFurniture();
                     isMoving = false;
                 }
@@ -172,6 +171,21 @@ public class Orang : MonoBehaviour
             if (lr.transform.position.y == yPos)
             {
                 return lr.transform;   
+            }
+        }
+
+        return null;
+    }
+
+    private Transform FindDoor(float yPos)
+    {
+        GameObject[] doors = GameObject.FindGameObjectsWithTag("Door");
+
+        foreach (GameObject d in doors)
+        {
+            if (d.transform.position.y == yPos)
+            {
+                return d.transform;
             }
         }
 
